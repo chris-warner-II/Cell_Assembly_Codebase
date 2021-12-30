@@ -20,17 +20,17 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 Utils packages that are imported and called from various functions:
 
-(1). data_manipulation.py - 
+(1). **data_manipulation.py** - 
 
-(2). retina_computation.py -
+(2). **retina_computation.py** -
 
-(3). plot_functions.py - 
+(3). **plot_functions.py** - 
 
-(4). sbatch_scripts.py - contains functions to write sbatch script text files which call python functions with command line parameter input arguments. These utils functions are called inside nested for loops in cluster_scripts_<xyz>.py functions to generate individual sbatch jobs for each parameter setting in a grid search and a script which allows me to submit all those jobs to the cluster scheduler with a single command.
+(4). **sbatch_scripts.py** - contains functions to write sbatch script text files which call python functions with command line parameter input arguments. These utils functions are called inside nested for loops in cluster_scripts_\*.py functions to generate individual sbatch jobs for each parameter setting in a grid search and a script which allows me to submit all those jobs to the cluster scheduler with a single command.
 
 
 
-<!---
+<!--- COMMENT OUT THIS
 write_sbatch_script_pgmCA_realData > pgmCA_realData.py
 write_sbatch_script_pgmCA_GLMsimData > pgmCA_GLMsimData.py
 write_sbatch_script_pgmCA_synthData > pgmCA_synthData.py
@@ -57,28 +57,34 @@ write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-(5). pgmCA_realData.py - 
+(5). **pgmCA_realData.py** - 
 
-(5). pgmCA_synthData.py - 
+(5). **pgmCA_synthData.py** - 
 
-(5). pgmCA_GLMsimData.py - 
-
-
-	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-(6). plot_raster_PSTH_zs.py
-
+(5). **pgmCA_GLMsimData.py** - 
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-(6). cluster_scripts_realData.py
+(6). **plot_raster_PSTH_zs.py**
 
-(6). cluster_scripts_synthData.py
+(7). **other_plot_functions**
 
-(6). cluster_scripts_GLMsimData.py
 
-(6). cluster_scripts_compare_realNsynth.py
+
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+(6). **cluster_scripts_realData.py** - 
+
+(6). **cluster_scripts_synthData.py** - 
+
+
+
+
+
+(6). **cluster_scripts_GLMsimData.py**
+
+(6). **cluster_scripts_compare_realNsynth.py**
 
 
 
