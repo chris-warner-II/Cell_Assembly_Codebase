@@ -4,15 +4,15 @@ Welcome. This code repo contains the 2nd half of my thesis work. Most of the dev
 
 
 
-The papers stemming from this work, entitled "A probabilistic latent variable model to detect noisy patterns in binary data", can be found at arxiv.org/xyz
+The paper stemming from this work, entitled "A probabilistic latent variable model to detect noisy patterns in binary data", can be found at arxiv.org/xyz
 
 
 
 ## Matlab Functions:
 
-	(1). edit_all_DataRetina.m - function which opens various functions I have played with and written over the course of this project. It acts as a historical document and a table of contents. Some of these functions are deprecated and no longer used.
+(1). edit_all_DataRetina.m - function which opens various functions I have played with and written over the course of this project. It acts as a historical document and a table of contents. Some of these functions are deprecated and no longer used.
 
-	(2). addProjPaths.m - for the purposes of this project, the function adds directory structure to the matlab path for downloaded matlab packages
+(2). addProjPaths.m - for the purposes of this project, the function adds directory structure to the matlab path for downloaded matlab packages
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
