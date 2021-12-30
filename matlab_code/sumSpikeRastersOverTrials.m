@@ -1,8 +1,9 @@
 function [ popCodeCat_sumTrials, popCodeWn_sumTrials  ] = sumSpikeRastersOverTrials...
             ( spikesInCat, spikesInWn, stims, cellType, outputDir, plotFlag )
 
-%
-%
+% comments
+% Constructing a spike raster that is #cells x time_ms x num_trials for both the 
+% white noise stimulus and for natural movie stimulus
 %
 
 disp('Population Spiking - Look at spiking of all 55 cells in all trials')

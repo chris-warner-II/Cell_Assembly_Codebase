@@ -1,3 +1,14 @@
+% This function was an exploration in mixing my two projects - image segmentation and retinal image processing
+% via cell assembly activity. In the image segmentation project, we found that probabilistic boundaries (pb's)
+% computed from spatial gradients of both raw image pixels and of image pixels filtered by gaussian that mimic
+% receptive fields of retinal ganglion cells do provide information about object boundaries. While an interesting
+% hypothesis, we were unable to show any quantitative result here because the input "catrep" movie was limited
+% for 3 reasons. First, it was very short, only 5 seconds long and consisting of only 150 very correlated frames.
+% Second, there were not really any objects or well defined boundaries in the movie - it consisted only of a leafy
+% forest floor with the camera at the eye level of a cat. Thirdly, even for the rare and weak boundaries that did
+% exist in the natual movie stimulus, we had no ground truth and the process of constructing that ground truth 
+% would have been costly, subject to experimenter bias and not worth the effort given the stimulus.
+%
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 %

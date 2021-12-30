@@ -6,7 +6,7 @@
 %% Variables included in Kiersten Ruda's GLM simulations for cell subsets with natural movie stimulus.
 
 whichPop = 'fullpop'; % (1). 'subpop' - spiketrains from a pairwise and indpenendent GLM simulation of selected small subsets of cells
-                                    % (2). 'fullpop' - spiketrains from an indpenendent GLM simulation of all cells of {offBT, onBT, offBS} types - 137 cells.
+                      % (2). 'fullpop' - spiketrains from an indpenendent GLM simulation of all cells of {offBT, onBT, offBS} types - 137 cells.
 
 fname = ['glm_cat_sim_',whichPop,'_v2']; 
 

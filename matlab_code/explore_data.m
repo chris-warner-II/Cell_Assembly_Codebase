@@ -1,5 +1,40 @@
 %% Exploratory Code to analyze Retina Data sent by Greg Field with white noise and natural stimulus.
-
+%
+%   This code takes in raw data in mat file provided by Greg Field, does some preprocessing and
+%   reshapes data structures into a form that will be friendly with python and then saves them 
+%   to mat files. Also, this code makes ellipse plots of cell receptive fields for the different
+%   cell types.
+%
+% - - - - - - - Variables included in Greg Field's Data Files. - - - - - - - - - - - 
+%
+% triggers_wnrep            - timestamps when each of the 200 trials from repeated whitenoise stimulus began.
+% spikes_wnrep              - spiketimes relative to stimulus beginning for each of cell (is a matlab cell of size num_cells)
+% movie_wnrep               - movie of the actual stimulus presented during this experiment.
+% 
+% triggers_catrep           - natural movie stimulus (cat cam)
+% spikes_catrep             - (same as above)
+% movie_catrep              - (same as above)
+% 
+% triggers_wn               - Non-repeated white noise stimulus (what does trigger mean in this context?)
+% spikes_wn                 - (same as above)
+% movie_wn                  - (same as above)
+% 
+% stas                      - spatio-temporal receptive fields gotten by spike triggered averaging on white noise movie repeats.
+% refresh_time              - monitor refresh rate.
+% indices_for_typed_cells   - index of cells included in each cell type
+%
+%                   Cell Types
+%     offBriskTransient: 55 cells
+%     offBriskSustained: 43 cells
+%          offExpanding: 13 cells
+%          offTransient:  4 cells
+%      onBriskTransient: 39 cells
+%      onBriskSustained:  6 cells
+%           onTransient:  7 cells
+%           dsOnoffDown:  7 cells
+%          dsOnoffRight:  3 cells
+%           dsOnoffLeft:  3 cells
+%             dsOnoffUp:  2 cells
 
 
 
@@ -27,34 +62,7 @@ fname = 'all_cells_2017_01_16_0'; % [[ Note: retina_data_2018 and retina_data2_2
 disp(['Load raw retina data mat file: ',fname])
 load([inputDir,fname,'.mat'])  % mat file which includes data 
 
-% % Variables included in Greg Field's Data Files.
-% triggers_wnrep            - timestamps when each of the 200 trials from repeated whitenoise stimulus began.
-% spikes_wnrep              - spiketimes relative to stimulus beginning for each of cell (is a matlab cell of size num_cells)
-% movie_wnrep               - movie of the actual stimulus presented during this experiment.
-% 
-% triggers_catrep           - natural movie stimulus (cat cam)
-% spikes_catrep             - (same as above)
-% movie_catrep              - (same as above)
-% 
-% triggers_wn               - Non-repeated white noise stimulus (what does trigger mean in this context?)
-% spikes_wn                 - (same as above)
-% movie_wn                  - (same as above)
-% 
-% stas                      - spatio-temporal receptive fields gotten by spike triggered averaging on white noise movie repeats.
-% refresh_time              - monitor refresh rate.
-% indices_for_typed_cells   - index of cells included in each cell type
-%                   Cell Types
-%     offBriskTransient: 55 cells
-%     offBriskSustained: 43 cells
-%          offExpanding: 13 cells
-%          offTransient:  4 cells
-%      onBriskTransient: 39 cells
-%      onBriskSustained:  6 cells
-%           onTransient:  7 cells
-%           dsOnoffDown:  7 cells
-%          dsOnoffRight:  3 cells
-%           dsOnoffLeft:  3 cells
-%             dsOnoffUp:  2 cells
+
 
 
 stims = {'White Noise','Natural Movie'};
@@ -125,7 +133,8 @@ end
 
 
 
-%% (1). Split spike data up into a [cell_num x trial_num] data cell array. 
+%% (2). Split spike data up into a [cell_num x trial_num] data cell array in order to do some
+%       Spike Triggered Averaging on the White Noise input. 
 %       This is used as input to python code!
 if(0)
     if exist([outDataDir,cellType,'_spikeTrains_CellXTrial_Wn4STA.mat'],'file')

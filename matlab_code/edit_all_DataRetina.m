@@ -9,12 +9,40 @@ addpath(genpath(['./RetinaData/Chris_working_2018']));
 %% edit this file
 edit edit_all_DataRetina
 
+
+
+
+%% Most recent MATLAB files used in Cell Assembly Project.
+if (1)
+    edit explore_data.m
+    edit explore_data_GLM_NM.m
+    %
+    edit find_GaussRF_PBs.m
+    edit findRateCodeAssemblies.m
+    edit STRF_fit.m
+    edit sumSpikeRastersOverTrials.m
+    edit tile_RFs.m
+    edit warnerSTC.m
+    edit CA_STRFs.m
+
+
+
+
+
+
+
 %% edit Spike Train Generation function (Ground Truth for Sanity Checking)
-edit genSpikeTrain % synthetic data.
+if (0)
+    edit genSpikeTrain % synthetic data.
+
+
+
+
+
 
 
 %% The various functions and scripts I have written as part of processing chain.
-if(1)
+if(0)
     edit calc_Rate_ISI                           % Calculates some statistics on spike trains.
     %
     % Look For Overlap of High Activity Windows in Pairs of Spike Trains from Pairs of Neurons.
