@@ -31,18 +31,18 @@ Utils packages that are imported and called from various functions:
 
 
 <!---
-write_sbatch_script_pgmCA_realData --> pgmCA_realData.py
-write_sbatch_script_pgmCA_GLMsimData --> pgmCA_GLMsimData.py
-write_sbatch_script_pgmCA_synthData --> pgmCA_synthData.py
-write_sbatch_script_infer_postLrn_synthData --> infer_postLrn_synthData.py
-write_sbatch_script_pgmCA_and_infPL_synthData --> pgmCA_synthData.py & infer_postLrn_synthData.py
+write_sbatch_script_pgmCA_realData > pgmCA_realData.py
+write_sbatch_script_pgmCA_GLMsimData > pgmCA_GLMsimData.py
+write_sbatch_script_pgmCA_synthData > pgmCA_synthData.py
+write_sbatch_script_infer_postLrn_synthData > infer_postLrn_synthData.py
+write_sbatch_script_pgmCA_and_infPL_synthData > pgmCA_synthData.py & infer_postLrn_synthData.py
 
-write_sbatch_script_rasterZ_realData --> raster_zs_inferred_allSWs_given_model.py
-write_sbatch_script_rasterZ_GLMsimData --> raster_zs_inferred_allSWs_given_model.py
-write_sbatch_script_rasterZ_xVal_realData --> raster_zs_inferred_xValSWs_given_model.py
+write_sbatch_script_rasterZ_realData > raster_zs_inferred_allSWs_given_model.py
+write_sbatch_script_rasterZ_GLMsimData > raster_zs_inferred_allSWs_given_model.py
+write_sbatch_script_rasterZ_xVal_realData > raster_zs_inferred_xValSWs_given_model.py
 
-write_sbatch_script_StatsInfPL_realData --> StatsInfPL_realData.py
-write_sbatch_script_compare_SWdists_realNsynth --> compare_SWdists_realNsynthData.py
+write_sbatch_script_StatsInfPL_realData > StatsInfPL_realData.py
+write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.py
 --->
 
 
