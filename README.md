@@ -14,6 +14,8 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 
 
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
 
 
 ## Python Functions:
@@ -34,6 +36,7 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 write_sbatch_script_pgmCA_realData > pgmCA_realData.py
 write_sbatch_script_pgmCA_GLMsimData > pgmCA_GLMsimData.py
 write_sbatch_script_pgmCA_synthData > pgmCA_synthData.py
+
 write_sbatch_script_infer_postLrn_synthData > infer_postLrn_synthData.py
 write_sbatch_script_pgmCA_and_infPL_synthData > pgmCA_synthData.py & infer_postLrn_synthData.py
 
@@ -56,42 +59,56 @@ write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+### Main functions to run EM algorithm to learn model from data
 
 
-(5). **pgmCA_realData.py** - 
+(1). **pgmCA_realData.py** - function that will load in real retina data, split it into test and train sets, initialize model parameters and run EM algorithm to learn model parameters to fit observed responses in that data. Will save model and training statistics to an npz file. Will also train a 2nd model on the "test" data for cross-validation purposes to compare the two models against one another. This function can be run for a single set of model hyperparamters on the cluster as part of a grid search by using cluster_scripts_realData.py with what_to_run flag = 'pgmR'.
 
-(5). **pgmCA_synthData.py** - 
+(2). **pgmCA_synthData.py** - function that will load in synthesized data from npz file or synthesize a model and generate data and save it if it does not exist. Then, function will initialize a model, split the synthesized data into test and train sets, initialize and learn two models using the two different splits of the data and the EM algorithm. Since this is synthesized data and we have the ground truth model it was synthesized from, we can compare the learned model to the ground truth, and we can compare difference between those during the learning procedure. This function can be run for a single set of model hyperparamters on the cluster as part of a grid search by using cluster_scripts_synthData.py with what_to_run flag = 'pgmS'.
 
-(5). **pgmCA_GLMsimData.py** - 
+(3). **pgmCA_GLMsimData.py** - function that will load in data from a GLM simulation based on real retina responses provided by our collaborator. It will then split the data into test and train sets, initialize model parameters and run EM algorithm to learn model parameters to fit observed responses in that data. Will save model and training statistics to an npz file. Will also train a 2nd model on the "test" data for cross-validation purposes to compare the two models against one another. This function can be run for a single set of model hyperparamters on the cluster as part of a grid search by using cluster_scripts_GLMsimData.py with what_to_run flag = 'pgmG'.
+
+
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+### Functions to infer latent variable (z) activity with model fixed, post learning.
+
+
+(1). **raster_zs_inferred_allSWs_given_model.py** - compute rasters for cell assembly activity (like is done for cell activity) for all spike words. Save data in an npz file. Then plots are made from that npz data file using plot_raster_PSTH_zs.py. This can be run as part of a hyperparameter grid search from cluster_scripts_realData.py with what_to_run flag = 'rasZ' or from cluster_scripts_GLMsimData.py with what_to_run flag = 'rasG'.
+
+
+(2). **raster_zs_inferred_xValSWs_given_model.py** - compute rasters for cell assembly activity (like is done for cell activity) for spike words in the test/validation dataset. Save data in an npz file. Then plots are made from that npz data file using plot_raster_PSTH_zs.py, This can be run as part of a hyperparameter grid search from cluster_scripts_realData.py with what_to_run flag = 'rasX'. 
+
+
+(3). **infer_postLrn_synthData.py** - function to infer latent unit (z) activity for model learned on synthetic data. Since the ground truth z activity is known, we compare inferred z's to ground truth z's and also compute statistics on inference step. This can be run  as part of a hyperparameter grid search from cluster_scripts_synthData.py with what_to_run flag = 'infPL'. 
+
+
+(4). **StatsInfPL_realData.py** - From data saved from inference functions 1 or 2 in this section, this function computes a whole battery of statistics that are used to quantify performance and to compare different learned models to one another. For inference from model learned on real retina data. This can be run as part of a hyperparameter grid search from cluster_scripts_realData.py with what_to_run flag = 'statI'.
+
+
+
+
+(5). **StatsInfPL_synthData.py** - From data saved from inference function 3 in this section, this function computes a whole battery of statistics that are used to quantify performance and to compare different learned models to one another. For inference from model learned on synth data. This may be unfinished ...
+
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-
-(8). **raster_zs_inferred_allSWs_given_model.py** - compute rasters for cell assembly activity (like is done for cell activity) for all spike words. Save data in an npz file. Then plots are made from that npz data file using plot_raster_PSTH_zs.py
-
-(9). **raster_zs_inferred_xValSWs_given_model.py** - compute rasters for cell assembly activity (like is done for cell activity) for spike words in the test/validation dataset. Save data in an npz file. Then plots are made from that npz data file using plot_raster_PSTH_zs.py
-
-
-	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+### Function to plot stuff
 
 (6). **plot_raster_PSTH_zs.py** - code to produce many different plots from Cell Assembly rasters, based on user input flags at the top of this function. Can loop through a grid of hyperparameter value to produce output plots for each parameter value combination. Many of the figures in the paper are generated with this function.
 
-
-
-
-
-
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-(6). **cluster_scripts_realData.py** - 
+### Functions to grid search hyperparameters on computer cluster
 
-(6). **cluster_scripts_synthData.py** - 
+(1). **cluster_scripts_realData.py** - For real retina data, write sbatch script text files for each set of hyperparameter values in a grid search that can be run on computer cluster. With the right setting of the what_to_run flag, we can run the EM algorithm, infer latent unit activity (z's) with a fixed model after learning, learn a model and then infer z's in sequence, or compute statistics on the inference step. This references functions defined in the sbatch_scripts.py util file.
 
-(6). **cluster_scripts_GLMsimData.py** - 
+(2). **cluster_scripts_synthData.py** -  For synthetic data, write sbatch script text files for each set of hyperparameter values in a grid search that can be run on computer cluster. With the right setting of the what_to_run flag, we can run the EM algorithm, infer latent unit activity (z's) with a fixed model after learning, or learn a model and then infer z's in sequence. This references functions defined in the sbatch_scripts.py util file.
 
+(3). **cluster_scripts_GLMsimData.py** -  For data from the GLM model fit to retina data, write sbatch script text files for each set of hyperparameter values in a grid search that can be run on computer cluster. With the right setting of the what_to_run flag, we can run the EM algorithm or infer latent unit activity (z's) with a fixed model after learning. This references functions defined in the sbatch_scripts.py util file.
 
+(4). **cluster_scripts_compare_realNsynth.py** - function that will write sbatch text files to run many jobs on computer cluster with one command-line call. Runs "compare_SWdists_realNsynthData.py" and saves plot and data file for each parameter value combination.
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -99,18 +116,39 @@ write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.
 ### Functions to fit model parameters to spike-word statistics in retinal data.
 
 (1). **compare_SWdists_realNsynthData.py** - function that constructs a model with a set of user-input parameter values, generates spike-words from that model, computes moments on the observed spike-words and then compares those moments from synthetic data to observable moments in real retinal data via QQ plots to be able to quantitatively say that a synthetic model with certain parameter values reproduces responses similar to a retina responding to natural movie stimulus, for example. This is discussed in the paper section, "Fitting Model parameters to spike-word statistics". This function is called from cluster_scripts_compare_realNsynth.py to be run in parallel on computer cluster with each run saving spike-word distribution moments stats to a file. Single run results can be combined and the best model parameters determined in plot_SWdists_bestFit_SynthParams2Real.py.
-
-(2). **cluster_scripts_compare_realNsynth.py** - function that will write sbatch text files to run many jobs on computer cluster with one command-line call. Runs "compare_SWdists_realNsynthData.py" and saves plot and data file for each parameter value combination.
 	
-(3). **plot_SWdists_bestFit_SynthParams2Real.py** - function to make plots of distributions for spike-word statistics in order to compare observed spike-word statistics for synthetic data generated from models with various parameter values to those spike-word statistics in real retinal data. This is discussed in the section "Fitting Model parameters to spike-word statistics" of the paper and displayed in Fig. 2, "Fitting synthetic model to spike-word moments". This allows us to choose the best model parameters to synthesize data based on QQ-plots comparing spike-word stats between real and synthesized data.			
+(2). **plot_SWdists_bestFit_SynthParams2Real.py** - function to make plots of distributions for spike-word statistics in order to compare observed spike-word statistics for synthetic data generated from models with various parameter values to those spike-word statistics in real retinal data. This is discussed in the section "Fitting Model parameters to spike-word statistics" of the paper and displayed in Fig. 2, "Fitting synthetic model to spike-word moments". This allows us to choose the best model parameters to synthesize data based on QQ-plots comparing spike-word stats between real and synthesized data.			
+
+
+
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+### Functions to vis
+
+(1). vis_learned_pgmCA_realData.py
+
+(2). vis_learned_pgmCA_synthData.py
+
+(3). vis_model_snapshots_realData.py	
+				
+(4). vis_model_snapshots_synthData.py
+
+
+
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+### Functions to compare
+
+(1). compare_2_learned_models_realData.py
+				
+(2). compare_2_learned_models_synthData.py	
 
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-StatsInfPL_realData.py
-StatsInfPL_synthData.py
+
 
 
 
@@ -119,8 +157,6 @@ StatsInfPL_synthData.py
 
 combine_modelRands_synthData.py					
 
-compare_2_learned_models_realData.py				
-compare_2_learned_models_synthData.py	
 			
 scratch_pad_COSYNE_poster.py
 
@@ -132,21 +168,20 @@ test_inference.py
 
 
 compare_p_of_ys_PGM2nulls.py	
-
 				
 compute_GLM_p_of_y.py						
-compute_GLM_p_of_y_Better.py					
+compute_GLM_p_of_y_Better.py	
+
+
+				
 
 explore_retina_data_UEA.py					
-
-infer_postLrn_synthData.py					
+				
 
 pandas_vis_CSV_STATs.py	
 
-vis_learned_pgmCA_realData.py
-vis_learned_pgmCA_synthData.py
-vis_model_snapshots_realData.py					
-vis_model_snapshots_synthData.py
+
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
 
@@ -160,6 +195,11 @@ vis_model_snapshots_synthData.py
 
 
 
+
+
+
+
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
 
