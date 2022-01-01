@@ -13,6 +13,14 @@ from textwrap import wrap
 
 import pandas as pd
 
+#
+# This function makes plots of distributions for spike-word statistics in order to compare observed spike-word 
+# statistics for synthetic data generated from models with various parameter values to those spike-word 
+# statistics in real retinal data. This is discussed in the section "Fitting Model parameters to spike-word 
+# statistics" of the paper and displayed in Fig. 2, "Fitting synthetic model to spike-word moments". This 
+# allows us to choose the best model parameters to synthesize data based on QQ-plots comparing spike-word 
+# stats between real and synthesized data.
+#
 
 
 # Number of Synthetic Model Construction Parameters grid searched for each param in compare_SWdists_realNsynthData

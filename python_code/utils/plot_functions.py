@@ -118,11 +118,6 @@ def hist_dataGen_andSampling_statistics(Ycell_hist1, Zassem_hist1, nY1, nZ1, CA_
     ax6.set_ylabel( str('CA Coact. in ' + nameIdentifiers[1] ) )
 
 
-
-
-
-
-
     #
     ax7 = plt.subplot2grid((3,4),(2,3)) 
     im3=ax7.imshow(CA_ovl)

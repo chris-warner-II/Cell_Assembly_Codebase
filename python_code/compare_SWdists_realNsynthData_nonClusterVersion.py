@@ -162,8 +162,6 @@ for SW_bin in SW_binS:
 		t1 = time.time()
 		print('Time: ',t1-t0)
 
-print('Hi, I'm Mike and I approve of this message')
-
 
 
 

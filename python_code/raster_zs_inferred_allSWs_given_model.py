@@ -148,7 +148,7 @@ def raster_zs_inferred_allSWs_given_model(args): # y=DEFAULTS["y"], ):  #
 
 
 
-	#flg_checkNPZvars = True # CHECK THAT THE LIST BELOW IS COORECT AND CONTAINS EVERTHING WE ARE SAVING
+	#flg_checkNPZvars = True # CHECK THAT THE LIST BELOW IS CORRECT AND CONTAINS EVERTHING WE ARE SAVING
 	# INTO NPZ FILES BEFORE RUNNING THIS FLAG=TRUE. WILL DELETE FILES THAT DO NOT CONTAIN THESE VARIABLES.
 	#
 	realKeys = [ 'Z_inferred_allSWs', 'pyiEq1_gvnZ_allSWs', 'pj_inferred_allSWs', 'cond_inferred_allSWs', \

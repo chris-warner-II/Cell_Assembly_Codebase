@@ -36,6 +36,15 @@ flg_EgalitarianPriorS = [False,True] # False means binomial prior. True means Eg
 
 
 what_to_run = 'pgmS' 	# 'pgmS' or 'infPL' or 'PnIS' .... or one day, 'visS'?
+ 						# (1). 	 'pgmS' - Learn model on synth data 
+						# (2). 	 'infPL' - Infer z's for all spike words using learned model
+						# (1&2). 'PnIS' -  Do #1 and then #2 after, in serial
+						# (X).   'visS' - one day. Not implemented.
+
+
+
+
+
 #mk_plots 	= False 	# a quick flag to make all the plots. Only used in pgmS right now.
 
 flg_checkNPZvars = True # True or False. Check variables saved in NPZ file and delete file and regenerate it if it does not contain the expected variables (hardcoded in each funciton.)

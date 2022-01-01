@@ -72,7 +72,7 @@ what_to_run = 'rasZ' 	# (1). 	'pgmR' - Learn model on real data
 						# (2). 	'rasZ' - Infer z's for all spike words using learned model
 						# (2). 	'rasX' - Infer z's for test-set spikewords for cross validation for model comparison.
 						# (1&2) 'PnRr' - Do #1 and then #2 after, in serial
-						# (3). 	'statI'- Dont think this is even implemented
+						# (3). 	'statI'- compute statistics on inference step - post learning.
 
 
 

@@ -1275,9 +1275,6 @@ def write_sbatch_script_rasterZ_GLMsimData(script_path, output_path, error_path,
 	# which selections to run
 
 	CST_str = str(cell_type).replace(' ','') # have to do this because of weirdness in calling function and passing in this var.
-	
-
-# CAN I JUST REUSE: raster_zs_inferred_allSWs_given_model.py AS IS? THINK SO.
 
 	file.write(
 		'python3 ' + homeDir + 'Projects/G_Field_Retinal_Data/'	+ \

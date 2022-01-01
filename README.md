@@ -18,15 +18,15 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 ## Python Functions:
 
-Utils packages that are imported and called from various functions:
+### Utils packages that are imported and called from various functions:
 
-(1). **data_manipulation.py** - 
+(1). **retina_computation.py** - contains many functions that are used in several places in the code (for example, in code referencing real retinal data, synthetic data and GLM generated data). In here is code to synthesize a model, generate synthetic data, perform MAP estimation for model parameters, infer a latent vector given a model and observed vector, initialize model parameters, learn model parameters, run the expectation maximization algorithm, compare learned cell assemblies to ground truth ones, and more ...
 
-(2). **retina_computation.py** -
+(2). **sbatch_scripts.py** - contains functions to write sbatch script text files which call python functions with command line parameter input arguments. These utils functions are called inside nested for loops in cluster_scripts_\*.py functions to generate individual sbatch jobs for each parameter setting in a grid search and a script which allows me to submit all those jobs to the cluster scheduler with a single command.
 
-(3). **plot_functions.py** - 
+(3). **data_manipulation.py** - small group of functions that deal with paths and directories and manipulation of data and data files, mostly.
 
-(4). **sbatch_scripts.py** - contains functions to write sbatch script text files which call python functions with command line parameter input arguments. These utils functions are called inside nested for loops in cluster_scripts_\*.py functions to generate individual sbatch jobs for each parameter setting in a grid search and a script which allows me to submit all those jobs to the cluster scheduler with a single command.
+(4). **plot_functions.py** - collection of many of the plotting functions used in the development of this project, analysis of performance along the way, as well as the final figures contained in the paper.
 
 
 
@@ -57,6 +57,7 @@ write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
+
 (5). **pgmCA_realData.py** - 
 
 (5). **pgmCA_synthData.py** - 
@@ -66,9 +67,19 @@ write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-(6). **plot_raster_PSTH_zs.py**
 
-(7). **other_plot_functions**
+(8). **raster_zs_inferred_allSWs_given_model.py** - compute rasters for cell assembly activity (like is done for cell activity) for all spike words. Save data in an npz file. Then plots are made from that npz data file using plot_raster_PSTH_zs.py
+
+(9). **raster_zs_inferred_xValSWs_given_model.py** - compute rasters for cell assembly activity (like is done for cell activity) for spike words in the test/validation dataset. Save data in an npz file. Then plots are made from that npz data file using plot_raster_PSTH_zs.py
+
+
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+(6). **plot_raster_PSTH_zs.py** - code to produce many different plots from Cell Assembly rasters, based on user input flags at the top of this function. Can loop through a grid of hyperparameter value to produce output plots for each parameter value combination. Many of the figures in the paper are generated with this function.
+
+
+
+
 
 
 
@@ -78,13 +89,79 @@ write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.
 
 (6). **cluster_scripts_synthData.py** - 
 
+(6). **cluster_scripts_GLMsimData.py** - 
 
 
 
 
-(6). **cluster_scripts_GLMsimData.py**
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-(6). **cluster_scripts_compare_realNsynth.py**
+### Functions to fit model parameters to spike-word statistics in retinal data.
+
+(1). **compare_SWdists_realNsynthData.py** - function that constructs a model with a set of user-input parameter values, generates spike-words from that model, computes moments on the observed spike-words and then compares those moments from synthetic data to observable moments in real retinal data via QQ plots to be able to quantitatively say that a synthetic model with certain parameter values reproduces responses similar to a retina responding to natural movie stimulus, for example. This is discussed in the paper section, "Fitting Model parameters to spike-word statistics". This function is called from cluster_scripts_compare_realNsynth.py to be run in parallel on computer cluster with each run saving spike-word distribution moments stats to a file. Single run results can be combined and the best model parameters determined in plot_SWdists_bestFit_SynthParams2Real.py.
+
+(2). **cluster_scripts_compare_realNsynth.py** - function that will write sbatch text files to run many jobs on computer cluster with one command-line call. Runs "compare_SWdists_realNsynthData.py" and saves plot and data file for each parameter value combination.
+	
+(3). **plot_SWdists_bestFit_SynthParams2Real.py** - function to make plots of distributions for spike-word statistics in order to compare observed spike-word statistics for synthetic data generated from models with various parameter values to those spike-word statistics in real retinal data. This is discussed in the section "Fitting Model parameters to spike-word statistics" of the paper and displayed in Fig. 2, "Fitting synthetic model to spike-word moments". This allows us to choose the best model parameters to synthesize data based on QQ-plots comparing spike-word stats between real and synthesized data.			
+
+
+
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+StatsInfPL_realData.py
+StatsInfPL_synthData.py
+
+
+
+
+
+
+combine_modelRands_synthData.py					
+
+compare_2_learned_models_realData.py				
+compare_2_learned_models_synthData.py	
+			
+scratch_pad_COSYNE_poster.py
+
+
+
+
+	
+test_inference.py
+
+
+compare_p_of_ys_PGM2nulls.py	
+
+				
+compute_GLM_p_of_y.py						
+compute_GLM_p_of_y_Better.py					
+
+explore_retina_data_UEA.py					
+
+infer_postLrn_synthData.py					
+
+pandas_vis_CSV_STATs.py	
+
+vis_learned_pgmCA_realData.py
+vis_learned_pgmCA_synthData.py
+vis_model_snapshots_realData.py					
+vis_model_snapshots_synthData.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
