@@ -8,11 +8,9 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-
-
 ## Python Functions:
 
-### Utils packages that are imported and called from various functions:
+#### Utils packages:
 
 (1). **retina_computation.py** - contains many functions that are used in several places in the code (for example, in code referencing real retinal data, synthetic data and GLM generated data). In here is code to synthesize a model, generate synthetic data, perform MAP estimation for model parameters, infer a latent vector given a model and observed vector, initialize model parameters, learn model parameters, run the expectation maximization algorithm, compare learned cell assemblies to ground truth ones, and more ...
 
@@ -22,11 +20,9 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 (4). **plot_functions.py** - collection of many of the plotting functions used in the development of this project, analysis of performance along the way, as well as the final figures contained in the paper.
 
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Main functions to run EM algorithm to learn model from data
-
+#### Main functions to run EM algorithm to learn model from data
 
 (1). **pgmCA_realData.py** - function that will load in real retina data, split it into test and train sets, initialize model parameters and run EM algorithm to learn model parameters to fit observed responses in that data. Will save model and training statistics to an npz file. Will also train a 2nd model on the "test" data for cross-validation purposes to compare the two models against one another. This function can be run for a single set of model hyperparamters on the cluster as part of a grid search by using cluster_scripts_realData.py with what_to_run flag = 'pgmR'.
 
@@ -34,30 +30,23 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 (3). **pgmCA_GLMsimData.py** - function that will load in data from a GLM simulation based on real retina responses provided by our collaborator. It will then split the data into test and train sets, initialize model parameters and run EM algorithm to learn model parameters to fit observed responses in that data. Will save model and training statistics to an npz file. Will also train a 2nd model on the "test" data for cross-validation purposes to compare the two models against one another. This function can be run for a single set of model hyperparamters on the cluster as part of a grid search by using cluster_scripts_GLMsimData.py with what_to_run flag = 'pgmG'.
 
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Functions to infer latent variable (z) activity with model fixed, post learning.
-
+#### Functions to infer latent variable (z) activity with model fixed, post learning.
 
 (1). **raster_zs_inferred_allSWs_given_model.py** - compute rasters for cell assembly activity (like is done for cell activity) for all spike words. Save data in an npz file. Then plots are made from that npz data file using plot_raster_PSTH_zs.py. This can be run as part of a hyperparameter grid search from cluster_scripts_realData.py with what_to_run flag = 'rasZ' or from cluster_scripts_GLMsimData.py with what_to_run flag = 'rasG'.
 
-
 (2). **raster_zs_inferred_xValSWs_given_model.py** - compute rasters for cell assembly activity (like is done for cell activity) for spike words in the test/validation dataset. Save data in an npz file. Then plots are made from that npz data file using plot_raster_PSTH_zs.py, This can be run as part of a hyperparameter grid search from cluster_scripts_realData.py with what_to_run flag = 'rasX'. 
-
 
 (3). **infer_postLrn_synthData.py** - function to infer latent unit (z) activity for model learned on synthetic data. Since the ground truth z activity is known, we compare inferred z's to ground truth z's and also compute statistics on inference step. This can be run  as part of a hyperparameter grid search from cluster_scripts_synthData.py with what_to_run flag = 'infPL'. 
 
-
 (4). **StatsInfPL_realData.py** - From data saved from inference functions 1 or 2 in this section, this function computes a whole battery of statistics that are used to quantify performance and to compare different learned models to one another. For inference from model learned on real retina data. This can be run as part of a hyperparameter grid search from cluster_scripts_realData.py with what_to_run flag = 'statI'.
-
 
 (5). **StatsInfPL_synthData.py** - From data saved from inference function 3 in this section, this function computes a whole battery of statistics that are used to quantify performance and to compare different learned models to one another. For inference from model learned on synth data. This may be unfinished ...
 
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Functions to grid search hyperparameters on computer cluster
+#### Functions to grid search hyperparameters on computer cluster
 
 (1). **cluster_scripts_realData.py** - For real retina data, write sbatch script text files for each set of hyperparameter values in a grid search that can be run on computer cluster. With the right setting of the what_to_run flag, we can run the EM algorithm, infer latent unit activity (z's) with a fixed model after learning, learn a model and then infer z's in sequence, or compute statistics on the inference step. This references functions defined in the sbatch_scripts.py util file.
 
@@ -67,27 +56,23 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 (4). **cluster_scripts_compare_realNsynth.py** - function that will write sbatch text files to run many jobs on computer cluster with one command-line call. Runs "compare_SWdists_realNsynthData.py" and saves plot and data file for each parameter value combination.
 
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Functions to fit model parameters to spike-word statistics in retinal data.
+#### Functions to fit model parameters to spike-word statistics in retinal data.
 
 (1). **compare_SWdists_realNsynthData.py** - function that constructs a model with a set of user-input parameter values, generates spike-words from that model, computes moments on the observed spike-words and then compares those moments from synthetic data to observable moments in real retinal data via QQ plots to be able to quantitatively say that a synthetic model with certain parameter values reproduces responses similar to a retina responding to natural movie stimulus, for example. This is discussed in the paper section, "Fitting Model parameters to spike-word statistics". This function is called from cluster_scripts_compare_realNsynth.py to be run in parallel on computer cluster with each run saving spike-word distribution moments stats to a file. Single run results can be combined and the best model parameters determined in plot_SWdists_bestFit_SynthParams2Real.py.
 	
 (2). **plot_SWdists_bestFit_SynthParams2Real.py** - function to make plots of distributions for spike-word statistics in order to compare observed spike-word statistics for synthetic data generated from models with various parameter values to those spike-word statistics in real retinal data. This is discussed in the section "Fitting Model parameters to spike-word statistics" of the paper and displayed in Fig. 2, "Fitting synthetic model to spike-word moments". This allows us to choose the best model parameters to synthesize data based on QQ-plots comparing spike-word stats between real and synthesized data.			
 
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Function to make plots
+#### Function to make plots
 
 (1). **plot_raster_PSTH_zs.py** - function to produce many different plots from Cell Assembly rasters, based on user input flags at the top of this function. Can loop through a grid of hyperparameter value to produce output plots for each parameter value combination. Many of the figures in the paper are generated with this function.
-
 
 (2). **vis_learned_pgmCA_realData.py** - function to gather up model and inference performance with real data. Loops through hyperparameter values. Loads in npz data file containing model and inference performance with fixed model and also inference during learning. Also makes a number of diagnostic plots along the way. Appends all info about parameter values and inference statistics into CSV file.
 
 (3). **vis_learned_pgmCA_synthData.py** - does very similar thing as vis_learned_pgmCA_realData.py just with synth data. So hyperparameters are a little different. Also, compares learned structure to known structure in ground truth. Makes lots of plots. Saves CSV file and some npz files too.
-
 
 (4). **vis_model_snapshots_realData.py** - During model training, snapshots of model and inference procedure were taken. This function will make plots of model and inference stats from different snapshots in the learning procedure. Can show two models run on 50/50% test-train cross validation splits side by side. Does so for model trained on real retina data.	
 				
@@ -95,10 +80,9 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 (6). **pandas_vis_CSV_STATs.py** - function to use pandas and seaborn plotting to explore differences between model hyperparameter values and how they effect the inference step after the model has been learned. The CSV data files that this function analyzes were made in vis_learned_pgmCA_realData.py and vis_learned_pgmCA_synthData.py. Can run for synth data or real data.
 
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Functions to compare models to one another after learning
+#### Functions to compare models to one another after learning
 
 (1). **compare_2_learned_models_realData.py** - function to perform some post-hoc analysis after two models have been learned on real data to compare them. Compute cosine similarity between pairs of cell assemblies in models and match up CA's found in both models.
 				
@@ -106,28 +90,24 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Functions to compare models to GLM & LNP null models
+#### Functions to compare models to GLM & LNP null models
 				
 (1). **compute_GLM_p_of_y.py** - compute individual cell firing rate/probability for real retina cells under the GLM and LNP models for a given stimulus. Run with and without spike history. Data from GLM/LNP models delivered by our collaborators.
 
 					
 (2). **compute_GLM_p_of_y_Better.py** - function that does the same as compute_GLM_p_of_y.py, but in addition it investigates if there is a systematic offset between when a synchronous firing pattern is most likely under the GLM and when we observe it using our model. 
 
-(3). **compare_p_of_ys_PGM2nulls.py** - gathering up model predicted joint probability p(y,z), GLM predicted firing probability p(y) and LNP predicted firing probability for each cell, stimulus and trial. These are saved into data structures and plotted. 		
-
+(3). **compare_p_of_ys_PGM2nulls.py** - gathering up model predicted joint probability p(y,z), GLM predicted firing probability p(y) and LNP predicted firing probability for each cell, stimulus and trial. These are saved into data structures and plotted. 	
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Exploratory functions
+#### Exploratory functions
 
 (1). **combine_modelRands_synthData.py** - An attempt with models learned on synthetic data to combine them together to see if the agglomerated model was better than either one alone.					
 
 (2). **explore_retina_data_UEA.py** - Early function exploring Sonja Gruen's Unitary Events Analysis (UEA) framework and her Elephant toolbox to analyze retina spike trains.					
 
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
 
 ## Matlab Functions:
 
