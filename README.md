@@ -1,17 +1,9 @@
 # Cell Assembly Codebase
 
-Welcome. This code repo contains the 2nd half of my thesis work. Most of the development was done in Python with raw data receiving and preprocessing done in matlab. Raw data was provided by experimental collaborators in mat files. Additionally, some bash scripting to interface with a computer cluster using sbatch.
-
+Welcome. This code repo contains the 2nd half of my thesis work. Most of the development was done in Python with raw data receiving and preprocessing done in matlab. Raw data was provided by experimental collaborators in mat files. Raw data consisted of input stimulus videos (white noise and natural movie) as well as cell id's and spike times provided in matlab structures. In matlab, we computed receptive fields (using STRFlab) and converted data formats to transfer spike times over to python. In python, we did the vast majority of the development - including synthetic model generation, data synthesis, model training, inference and model analysis and comparison. In order to speed up development, we parallelized the search over model hyperparameters by sbatch scripting and submitting python jobs to a computer cluster.
 
 
 The paper stemming from this work, entitled "A probabilistic latent variable model to detect noisy patterns in binary data", can be found at arxiv.org/xyz
-
-
-
-
-
-
-
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -29,32 +21,6 @@ The paper stemming from this work, entitled "A probabilistic latent variable mod
 (3). **data_manipulation.py** - small group of functions that deal with paths and directories and manipulation of data and data files, mostly.
 
 (4). **plot_functions.py** - collection of many of the plotting functions used in the development of this project, analysis of performance along the way, as well as the final figures contained in the paper.
-
-
-
-<!--- COMMENT OUT THIS
-write_sbatch_script_pgmCA_realData > pgmCA_realData.py
-write_sbatch_script_pgmCA_GLMsimData > pgmCA_GLMsimData.py
-write_sbatch_script_pgmCA_synthData > pgmCA_synthData.py
-
-write_sbatch_script_infer_postLrn_synthData > infer_postLrn_synthData.py
-write_sbatch_script_pgmCA_and_infPL_synthData > pgmCA_synthData.py & infer_postLrn_synthData.py
-
-write_sbatch_script_rasterZ_realData > raster_zs_inferred_allSWs_given_model.py
-write_sbatch_script_rasterZ_GLMsimData > raster_zs_inferred_allSWs_given_model.py
-write_sbatch_script_rasterZ_xVal_realData > raster_zs_inferred_xValSWs_given_model.py
-
-write_sbatch_script_StatsInfPL_realData > StatsInfPL_realData.py
-write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.py
---->
-
-
-
-
-
-
-
-
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -86,17 +52,8 @@ write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.
 (4). **StatsInfPL_realData.py** - From data saved from inference functions 1 or 2 in this section, this function computes a whole battery of statistics that are used to quantify performance and to compare different learned models to one another. For inference from model learned on real retina data. This can be run as part of a hyperparameter grid search from cluster_scripts_realData.py with what_to_run flag = 'statI'.
 
 
-
-
 (5). **StatsInfPL_synthData.py** - From data saved from inference function 3 in this section, this function computes a whole battery of statistics that are used to quantify performance and to compare different learned models to one another. For inference from model learned on synth data. This may be unfinished ...
 
-
-
-	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-### Function to plot stuff
-
-(6). **plot_raster_PSTH_zs.py** - code to produce many different plots from Cell Assembly rasters, based on user input flags at the top of this function. Can loop through a grid of hyperparameter value to produce output plots for each parameter value combination. Many of the figures in the paper are generated with this function.
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -120,88 +77,55 @@ write_sbatch_script_compare_SWdists_realNsynth > compare_SWdists_realNsynthData.
 (2). **plot_SWdists_bestFit_SynthParams2Real.py** - function to make plots of distributions for spike-word statistics in order to compare observed spike-word statistics for synthetic data generated from models with various parameter values to those spike-word statistics in real retinal data. This is discussed in the section "Fitting Model parameters to spike-word statistics" of the paper and displayed in Fig. 2, "Fitting synthetic model to spike-word moments". This allows us to choose the best model parameters to synthesize data based on QQ-plots comparing spike-word stats between real and synthesized data.			
 
 
-
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### Functions to vis
+### Function to make plots
 
-(1). vis_learned_pgmCA_realData.py
+(1). **plot_raster_PSTH_zs.py** - function to produce many different plots from Cell Assembly rasters, based on user input flags at the top of this function. Can loop through a grid of hyperparameter value to produce output plots for each parameter value combination. Many of the figures in the paper are generated with this function.
 
-(2). vis_learned_pgmCA_synthData.py
 
-(3). vis_model_snapshots_realData.py	
+(2). **vis_learned_pgmCA_realData.py** - function to gather up model and inference performance with real data. Loops through hyperparameter values. Loads in npz data file containing model and inference performance with fixed model and also inference during learning. Also makes a number of diagnostic plots along the way. Appends all info about parameter values and inference statistics into CSV file.
+
+(3). **vis_learned_pgmCA_synthData.py** - does very similar thing as vis_learned_pgmCA_realData.py just with synth data. So hyperparameters are a little different. Also, compares learned structure to known structure in ground truth. Makes lots of plots. Saves CSV file and some npz files too.
+
+
+(4). **vis_model_snapshots_realData.py** - During model training, snapshots of model and inference procedure were taken. This function will make plots of model and inference stats from different snapshots in the learning procedure. Can show two models run on 50/50% test-train cross validation splits side by side. Does so for model trained on real retina data.	
 				
-(4). vis_model_snapshots_synthData.py
+(5). **vis_model_snapshots_synthData.py** - Does same as vis_model_snapshots_realData.py, but for model trained on synth data. And since there is ground truth, can also show model during training as it approaches the ground truth model.
 
-
-
-	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-### Functions to compare
-
-(1). compare_2_learned_models_realData.py
-				
-(2). compare_2_learned_models_synthData.py	
-
+(6). **pandas_vis_CSV_STATs.py** - function to use pandas and seaborn plotting to explore differences between model hyperparameter values and how they effect the inference step after the model has been learned. The CSV data files that this function analyzes were made in vis_learned_pgmCA_realData.py and vis_learned_pgmCA_synthData.py. Can run for synth data or real data.
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+### Functions to compare models to one another after learning
 
-
-
-
-
-
-
-
-combine_modelRands_synthData.py					
-
-			
-scratch_pad_COSYNE_poster.py
-
-
-
-
-	
-test_inference.py
-
-
-compare_p_of_ys_PGM2nulls.py	
+(1). **compare_2_learned_models_realData.py** - function to perform some post-hoc analysis after two models have been learned on real data to compare them. Compute cosine similarity between pairs of cell assemblies in models and match up CA's found in both models.
 				
-compute_GLM_p_of_y.py						
-compute_GLM_p_of_y_Better.py	
+(2). **compare_2_learned_models_synthData.py** - function to compare a pair of learned models trained on synthetic data to one another to see if they learned the same structure, and also to compare the structure learned in each model to the ground truth structure. Figures 3,4 and 5 and the associated analysis in the section of the paper entitled "Performance assessment and results on synthetic data" were produced using this code.	
 
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+### Functions to compare models to GLM & LNP null models
 				
+(1). **compute_GLM_p_of_y.py** - compute individual cell firing rate/probability for real retina cells under the GLM and LNP models for a given stimulus. Run with and without spike history. Data from GLM/LNP models delivered by our collaborators.
 
-explore_retina_data_UEA.py					
-				
+					
+(2). **compute_GLM_p_of_y_Better.py** - function that does the same as compute_GLM_p_of_y.py, but in addition it investigates if there is a systematic offset between when a synchronous firing pattern is most likely under the GLM and when we observe it using our model. 
 
-pandas_vis_CSV_STATs.py	
+(3). **compare_p_of_ys_PGM2nulls.py** - gathering up model predicted joint probability p(y,z), GLM predicted firing probability p(y) and LNP predicted firing probability for each cell, stimulus and trial. These are saved into data structures and plotted. 		
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+### Exploratory functions
 
+(1). **combine_modelRands_synthData.py** - An attempt with models learned on synthetic data to combine them together to see if the agglomerated model was better than either one alone.					
 
-
-
-
-
-
-
-
-
-
-
-
-
+(2). **explore_retina_data_UEA.py** - Early function exploring Sonja Gruen's Unitary Events Analysis (UEA) framework and her Elephant toolbox to analyze retina spike trains.					
 
 
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
 
 
 
